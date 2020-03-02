@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 
+import './add-contact.dart';
 import './edit-contact.dart';
 import '../presenter/contact-list-presenter.dart';
 
@@ -77,6 +78,16 @@ class _ContactListState extends State<ContactList> {
               );
             })
           ],
-        )));
+        )),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            log('message');
+            Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+              return AddContact();
+            }));
+          },
+          tooltip: 'Increment',
+          child: Icon(Icons.add),
+        ));
   }
 }
