@@ -1,14 +1,15 @@
 import 'package:contact_list/model/model.dart';
-import 'package:flutter/material.dart';
 
 class ContactListPresenter {
-  final TextEditingController nameControl = TextEditingController();
-  final TextEditingController surnameControl = TextEditingController();
-  final TextEditingController phoneControl = TextEditingController();
+  /* TextEditingController nameControl = TextEditingController();
+  TextEditingController surnameControl = TextEditingController();
+  TextEditingController phoneControl = TextEditingController();
+ */
+
 
   var contactList = ContactRepository();
 
-  void handleAddContact() {
+  void handleAddContact({String nameControl, String surnameControl,String phoneControl}) {
     Map newContact =  Map();
         newContact['name'] = nameControl.toString();
         newContact['surname']= surnameControl.toString();

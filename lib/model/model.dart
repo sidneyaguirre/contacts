@@ -60,7 +60,6 @@ class ContactRepository {
     contacts.forEach((e){
       print(e['name'] + " " + e['surname'] + " " + e['phone']);
     });
-    print(contacts.contains(contact));
     return;
   }
 }

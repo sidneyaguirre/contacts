@@ -9,6 +9,9 @@ class AddContact extends StatelessWidget {
   AddContact({Key key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController surnameControlller = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +34,14 @@ class AddContact extends StatelessWidget {
             FlatButton(
               onPressed: () {
                 log('message');
-                ContactListPresenter().handleAddContact();
+                ContactListPresenter().handleAddContact(nameControl: nameController.text, surnameControl: surnameControlller.text, phoneControl: phoneController.text);
               },
               child: Text('Save'),
               color: Colors.blue[200],
             ),
             Expanded(
               child: TextFormField(
-                controller: ContactListPresenter().nameControl,
+                controller: nameController,
                 decoration: InputDecoration(
                   labelText: "First Name:",
                 ),
@@ -46,7 +49,7 @@ class AddContact extends StatelessWidget {
             ),
             Expanded(
               child: TextFormField(
-                controller: ContactListPresenter().surnameControl,
+                controller: surnameControlller,
                 decoration: InputDecoration(
                   labelText: "Last Name:",
                 ),
@@ -54,7 +57,7 @@ class AddContact extends StatelessWidget {
             ),
             Expanded(
               child: TextFormField(
-                controller: ContactListPresenter().phoneControl,
+                controller: phoneController,
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
                   labelText: "Phone Number:",

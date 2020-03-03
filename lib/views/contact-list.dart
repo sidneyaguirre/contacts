@@ -22,7 +22,7 @@ class _ContactListState extends State<ContactList> {
     return Scaffold(
         appBar: AppBar(title: Text('Contact List')),
         body: Center(
-            child: Column(
+            child: contacts.length > 0 ? Column(
           children: <Widget>[
             ...contacts.map((element) {
               var initial = element['name'].substring(0, 1);
@@ -78,7 +78,7 @@ class _ContactListState extends State<ContactList> {
               );
             })
           ],
-        )),
+        ): Center(child: Text('No contacts in the List', style: TextStyle(fontSize: 24,),),)),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             log('message');
