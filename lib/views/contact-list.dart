@@ -20,65 +20,76 @@ class _ContactListState extends State<ContactList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Contact List')),
+        appBar: AppBar(title: Text('My Contacts')),
         body: Center(
-            child: contacts.length > 0 ? Column(
-          children: <Widget>[
-            ...contacts.map((element) {
-              var initial = element['name'].substring(0, 1);
-              return Card(
-                elevation: 0,
-                margin: EdgeInsets.all(10.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    CircleAvatar(
-                      child: Text(initial),
+            child: contacts.length > 0
+                ? Column(
+                    children: <Widget>[
+                      ...contacts.map((element) {
+                        var initial = element['name'].substring(0, 1);
+                        return Card(
+                          elevation: 0,
+                          margin: EdgeInsets.all(10.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              CircleAvatar(
+                                child: Text(initial),
+                              ),
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(element['name']),
+                                  Text(element['surname']),
+                                  Text(element['phone']),
+                                ],
+                              ),
+                              Column(
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      OutlineButton(
+                                        child: Icon(Icons.delete),
+                                        textColor: Colors.blue[200],
+                                        borderSide: BorderSide.none,
+                                        onPressed: () {
+                                          log('message');
+                                        },
+                                      ),
+                                      FlatButton(
+                                        hoverColor: Colors.blueAccent,
+                                        onPressed: () {
+                                          log('message');
+                                          print("CONTEXT "+context.toString());
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(builder: (_) {
+                                            return EditContact();
+                                          }));
+                                        },
+                                        child: Icon(Icons.edit),
+                                        color: Colors.blue[200],
+                                      )
+                                    ],
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                      })
+                    ],
+                  )
+                : Center(
+                    child: Text(
+                      'No contacts in the List',
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text(element['name']),
-                        Text(element['surname']),
-                        Text(element['phone']),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            OutlineButton(
-                              child: Icon(Icons.delete),
-                              textColor: Colors.blue[200],
-                              borderSide: BorderSide.none,
-                              onPressed: () {
-                                log('message');
-                              },
-                            ),
-                            FlatButton(
-                              hoverColor: Colors.blueAccent,
-                              onPressed: () {
-                                log('message');
-                                Navigator.of(context)
-                                    .push(MaterialPageRoute(builder: (_) {
-                                  return EditContact();
-                                }));
-                              },
-                              child: Icon(Icons.edit),
-                              color: Colors.blue[200],
-                            )
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              );
-            })
-          ],
-        ): Center(child: Text('No contacts in the List', style: TextStyle(fontSize: 24,),),)),
+                  )),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             log('message');

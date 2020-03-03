@@ -1,9 +1,8 @@
-import 'dart:developer';
 import 'package:contact_list/presenter/contact-list-presenter.dart';
+import 'package:contact_list/views/contact-list.dart';
 import 'package:flutter/material.dart';
 
 import '../presenter/contact-list-presenter.dart';
-
 
 class AddContact extends StatelessWidget {
   AddContact({Key key}) : super(key: key);
@@ -33,8 +32,39 @@ class AddContact extends StatelessWidget {
           children: <Widget>[
             FlatButton(
               onPressed: () {
-                log('message');
-                ContactListPresenter().handleAddContact(nameControl: nameController.text, surnameControl: surnameControlller.text, phoneControl: phoneController.text);
+                ContactListPresenter().handleAddContact(
+                    nameControl: nameController.text,
+                    surnameControl: surnameControlller.text,
+                    phoneControl: phoneController.text);
+                if (nameController.text == "" &&
+                    surnameControlller.text == "" &&
+                    phoneController.text == "") {
+                  return Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          ContactList(ContactListPresenter())));
+                } else
+                  return showDialog<void>(
+                    context: context,
+                    barrierDismissible: false, // user must tap button!
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Contact Saved!'),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('OK',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                )),
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      ContactList(ContactListPresenter())));
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  ); //showDialog
               },
               child: Text('Save'),
               color: Colors.blue[200],

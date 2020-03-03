@@ -10,10 +10,7 @@ class ContactListPresenter {
   var contactList = ContactRepository();
 
   void handleAddContact({String nameControl, String surnameControl,String phoneControl}) {
-    Map newContact =  Map();
-        newContact['name'] = nameControl.toString();
-        newContact['surname']= surnameControl.toString();
-        newContact['phone'] = phoneControl.toString();
+    Map newContact =  createContact(name: nameControl, surname: surnameControl, phone: phoneControl);
     print(newContact);
     addContact(newContact);
   }
@@ -32,5 +29,17 @@ class ContactListPresenter {
 
   List<Map> getContactList() {
     return contactList.getContactList();
+  }
+
+  bool contactExist(Map contact){
+    return contactList.contactExist(contact);
+  }
+
+  Map createContact({String name, String surname,String phone}){
+    Map newContact =  Map();
+        newContact['name'] = name;
+        newContact['surname']= surname;
+        newContact['phone'] = phone;
+        return newContact;
   }
 }
