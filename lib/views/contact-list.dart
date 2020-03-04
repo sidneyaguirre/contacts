@@ -26,7 +26,7 @@ class _ContactListState extends State<ContactList> {
                 ? Column(
                     children: <Widget>[
                       ...contacts.map((element) {
-                        var initial = element['name'].substring(0, 1);
+                        var initial = element.name.substring(0, 1);
                         return Card(
                           elevation: 0,
                           margin: EdgeInsets.all(10.0),
@@ -42,9 +42,9 @@ class _ContactListState extends State<ContactList> {
                                     MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Text(element['name']),
-                                  Text(element['surname']),
-                                  Text(element['phone']),
+                                  Text(element.name),
+                                  Text(element.surname),
+                                  Text(element.phone),
                                 ],
                               ),
                               Column(
@@ -62,11 +62,10 @@ class _ContactListState extends State<ContactList> {
                                       FlatButton(
                                         hoverColor: Colors.blueAccent,
                                         onPressed: () {
-                                          log('message');
                                           print("CONTEXT "+context.toString());
                                           Navigator.of(context).push(
                                               MaterialPageRoute(builder: (_) {
-                                            return EditContact();
+                                            return EditContact(name: element.name, surname: element.surname, phone: element.phone,);
                                           }));
                                         },
                                         child: Icon(Icons.edit),

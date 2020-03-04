@@ -1,18 +1,15 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
-//import '../presenter/presenter.dart';
+import '../presenter/contact-list-presenter.dart';
+import 'contact-list.dart';
 
-class EditContact extends StatefulWidget {
-  EditContact({Key key, String name, String surname, String phone})
-      : super(key: key);
+class EditContact extends StatelessWidget {
+  final String name;
+  final String surname;
+  final String phone;
 
-  @override
-  _EditContactState createState() => _EditContactState();
-}
+  EditContact({Key key, this.name, this.surname, this.phone}) : super(key: key);
 
-class _EditContactState extends State<EditContact> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController nameController = TextEditingController();
@@ -39,14 +36,46 @@ class _EditContactState extends State<EditContact> {
           children: <Widget>[
             FlatButton(
               onPressed: () {
-                log('message');
+                ContactListPresenter().handleAddContact(
+                    nameControl: nameController.text,
+                    surnameControl: surnameControlller.text,
+                    phoneControl: phoneController.text);
+                if (nameController.text == "" &&
+                    surnameControlller.text == "" &&
+                    phoneController.text == "") {
+                  return Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          ContactList(ContactListPresenter())));
+                } else
+                  return showDialog<void>(
+                    context: context,
+                    barrierDismissible: false, // user must tap button!
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Contact Saved!'),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('OK',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                )),
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      ContactList(ContactListPresenter())));
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  ); //showDialog
               },
               child: Text('Save'),
               color: Colors.blue[200],
             ),
             Expanded(
               child: TextFormField(
-                controller: nameController,
+                controller: TextEditingController(text: this.name),
                 decoration: InputDecoration(
                   labelText: "First Name:",
                 ),
@@ -54,7 +83,7 @@ class _EditContactState extends State<EditContact> {
             ),
             Expanded(
               child: TextFormField(
-                controller: surnameControlller,
+                controller: TextEditingController(text: this.surname),
                 decoration: InputDecoration(
                   labelText: "Surname:",
                 ),
@@ -62,7 +91,8 @@ class _EditContactState extends State<EditContact> {
             ),
             Expanded(
               child: TextFormField(
-                controller: phoneController,
+                controller: TextEditingController(text: this.phone),
+                keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
                   labelText: "Phone Number:",
                 ),
