@@ -23,6 +23,10 @@ class ContactListPresenter {
     return addContact(newContact);
   }
 
+  int handleDeleteContact(Contact contact){
+    return deleteContact(contact);
+  }
+
   int handleEditContact(
       {String nameControl, String surnameControl, String phoneControl}) {
     Contact newContact = createContact(
@@ -39,7 +43,7 @@ class ContactListPresenter {
     return contactList.editContact(contact);
   }
 
-  void deleteContact(Contact contact) {
+  int deleteContact(Contact contact) {
     return contactList.deleteContact(contact);
   }
 

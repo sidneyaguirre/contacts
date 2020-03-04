@@ -59,13 +59,13 @@ class ContactRepository {
     return contacts;
   }
 
-  void deleteContact(Contact contact) {
+  int deleteContact(Contact contact) {
     if (contactExist(contact)) {
       contacts.remove(contact);
+      print(contacts);
+    return contact.id;
     } else {
       return null;
     }
-    print(contacts);
-    return;
   }
 }

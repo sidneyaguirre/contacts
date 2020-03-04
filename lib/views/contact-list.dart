@@ -57,6 +57,7 @@ class _ContactListState extends State<ContactList> {
                                         borderSide: BorderSide.none,
                                         onPressed: () {
                                           log('message');
+                                          this.widget.presenter.handleDeleteContact();
                                         },
                                       ),
                                       FlatButton(
