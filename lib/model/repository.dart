@@ -1,15 +1,13 @@
-import './contact.dart';
+import '../presenter/contact.dart';
 
 class ContactRepository {
-
-  //int LastId = 0;
+  int lastId = 2;
 
   List<Contact> contacts = [
-    Contact(name: 'Max', surname: 'Smith', phone: '3046789053'),
-    Contact(name: 'Sidney', surname: 'Aguirre', phone: '3027869053'),
-    Contact(name: 'Phineas', surname: 'Forbes', phone: '3034890567'),
+    Contact(id: 0, name: 'Max', surname: 'Smith', phone: '3046789053'),
+    Contact(id: 1, name: 'Sidney', surname: 'Aguirre', phone: '3027869053'),
+    Contact(id: 2, name: 'Phineas', surname: 'Forbes', phone: '3034890567'),
   ];
-
 
   bool contactExist(Contact contact) {
     bool exists = false;
@@ -31,16 +29,30 @@ class ContactRepository {
     return getContact;
   }
 
+  int addContact(Contact contact) {
+    this.lastId += 1;
+    contact.id = this.lastId;
+    contacts.add(contact);
+    contacts.forEach((e) {
+      print(e.id.toString() + " " + e.name + " " + e.surname + " " + e.phone);
+    });
+    return contact.id;
+  }
 
-  void editContact(Contact contact) {
-    if (contactExist(contact)) {
-      Contact currentContact = getContact(contact);
+  int editContact(Contact contact) {
+    Contact currentContact = getContact(contact);
+    int index = contacts.indexOf(contact);
+    if (currentContact != null) {
       currentContact.name = contact.name;
       currentContact.surname = contact.surname;
       currentContact.phone = contact.phone;
-
-    } else {
-    }
+      contacts[index] = currentContact;
+      contacts.forEach((e) {
+        print(e.id.toString() + " " + e.name + " " + e.surname + " " + e.phone);
+      });
+      return currentContact.id;
+    } else
+      return -1;
   }
 
   List<Contact> getContactList() {
@@ -54,14 +66,6 @@ class ContactRepository {
       return null;
     }
     print(contacts);
-    return;
-  }
-
-  void addContact(Contact contact) {
-    contacts.add(contact);
-    contacts.forEach((e){
-      print(e.name + " " + e.surname + " " + e.phone);
-    });
     return;
   }
 }

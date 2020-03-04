@@ -62,10 +62,10 @@ class _ContactListState extends State<ContactList> {
                                       FlatButton(
                                         hoverColor: Colors.blueAccent,
                                         onPressed: () {
-                                          print("CONTEXT "+context.toString());
+                                          //print("CONTEXT "+context.toString());
                                           Navigator.of(context).push(
                                               MaterialPageRoute(builder: (_) {
-                                            return EditContact(name: element.name, surname: element.surname, phone: element.phone,);
+                                            return EditContact(contactListPresenter: this.widget.presenter,contactToEdit: element);
                                           }));
                                         },
                                         child: Icon(Icons.edit),
@@ -93,7 +93,7 @@ class _ContactListState extends State<ContactList> {
           onPressed: () {
             log('message');
             Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-              return AddContact();
+              return AddContact(this.widget.presenter);
             }));
           },
           tooltip: 'Increment',

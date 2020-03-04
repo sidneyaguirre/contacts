@@ -1,21 +1,35 @@
+import '../presenter/contact.dart';
 import 'package:flutter/material.dart';
 
 import '../presenter/contact-list-presenter.dart';
 import 'contact-list.dart';
 
-class EditContact extends StatelessWidget {
-  final String name;
-  final String surname;
-  final String phone;
+class EditContact extends StatefulWidget {
+  final Contact contactToEdit;
+  final ContactListPresenter contactListPresenter;
+  EditContact({Key key, this.contactToEdit, this.contactListPresenter})
+      : super(key: key);
 
-  EditContact({Key key, this.name, this.surname, this.phone}) : super(key: key);
+  @override
+  _EditContactState createState() => _EditContactState();
+}
+
+class _EditContactState extends State<EditContact> {
+  TextEditingController nameController;
+  TextEditingController surnameController;
+  TextEditingController phoneController;
+
+  void initState() {
+    super.initState();
+    nameController =
+        TextEditingController(text: this.widget.contactToEdit.name);
+    surnameController =
+        TextEditingController(text: this.widget.contactToEdit.surname);
+    phoneController =
+        TextEditingController(text: this.widget.contactToEdit.phone);
+  }
 
   final _formKey = GlobalKey<FormState>();
-
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController surnameControlller = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,23 +50,30 @@ class EditContact extends StatelessWidget {
           children: <Widget>[
             FlatButton(
               onPressed: () {
-                ContactListPresenter().handleAddContact(
+                this.widget.contactListPresenter.handleEditContact(
                     nameControl: nameController.text,
-                    surnameControl: surnameControlller.text,
+                    surnameControl: surnameController.text,
                     phoneControl: phoneController.text);
-                if (nameController.text == "" &&
-                    surnameControlller.text == "" &&
-                    phoneController.text == "") {
+                if (this.widget.contactListPresenter.emptyFields(
+                    nameController.text,
+                    surnameController.text,
+                    phoneController.text)) {
                   return Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          ContactList(ContactListPresenter())));
-                } else
+                          ContactList(this.widget.contactListPresenter)));
+                } else if (this.widget.contactListPresenter.handleEditContact(
+                        nameControl: nameController.text,
+                        surnameControl: surnameController.text,
+                        phoneControl: phoneController.text) !=
+                    null) {
+                  var l = this.widget.contactListPresenter.getContactList();
+                  l.forEach((e){print(e.name);});
                   return showDialog<void>(
                     context: context,
                     barrierDismissible: false, // user must tap button!
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text('Contact Saved!'),
+                        title: Text('Contact Edited!'),
                         actions: <Widget>[
                           FlatButton(
                             child: Text('OK',
@@ -62,20 +83,53 @@ class EditContact extends StatelessWidget {
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      ContactList(ContactListPresenter())));
+                                      ContactList(
+                                          this.widget.contactListPresenter)));
                             },
                           ),
                         ],
                       );
                     },
                   ); //showDialog
+                } else {
+                  return showDialog<void>(
+                    context: context,
+                    barrierDismissible: false, // user must tap button!
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Error!'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text('Couldn\'t save contact...'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('OK',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                )),
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      ContactList(
+                                          this.widget.contactListPresenter)));
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  ); //showDialog
+                }
               },
               child: Text('Save'),
               color: Colors.blue[200],
             ),
             Expanded(
               child: TextFormField(
-                controller: TextEditingController(text: this.name),
+                controller: nameController,
                 decoration: InputDecoration(
                   labelText: "First Name:",
                 ),
@@ -83,7 +137,7 @@ class EditContact extends StatelessWidget {
             ),
             Expanded(
               child: TextFormField(
-                controller: TextEditingController(text: this.surname),
+                controller: surnameController,
                 decoration: InputDecoration(
                   labelText: "Surname:",
                 ),
@@ -91,7 +145,7 @@ class EditContact extends StatelessWidget {
             ),
             Expanded(
               child: TextFormField(
-                controller: TextEditingController(text: this.phone),
+                controller: phoneController,
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
                   labelText: "Phone Number:",

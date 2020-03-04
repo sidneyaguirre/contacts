@@ -4,5 +4,5 @@ class Contact {
   String surname;
   String phone;
 
-  Contact({this.id,this.name, this.surname, this.phone});
+  Contact({this.id, this.name, this.surname, this.phone});
 }
