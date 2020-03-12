@@ -1,24 +1,28 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 
+import '../presenter/contact.dart';
 import './add-contact.dart';
 import './edit-contact.dart';
 import '../presenter/contact-list-presenter.dart';
 
 class ContactList extends StatefulWidget {
-  final ContactListPresenter presenter;
-
-  ContactList(this.presenter, {Key key}) : super(key: key);
+  ContactList({Key key}) : super(key: key);
 
   @override
   _ContactListState createState() => _ContactListState();
 }
 
-class _ContactListState extends State<ContactList> {
-  List contacts = ContactListPresenter().getContactList();
+class _ContactListState extends State<ContactList>
+    implements PresenterListener {
+  void initState() {
+    ContactListPresenter.instance.addListener(this);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    List<Contact> contacts = ContactListPresenter.instance.getContactList();
     return Scaffold(
         appBar: AppBar(title: Text('My Contacts')),
         body: Center(
@@ -57,7 +61,8 @@ class _ContactListState extends State<ContactList> {
                                         borderSide: BorderSide.none,
                                         onPressed: () {
                                           log('message');
-                                          this.widget.presenter.handleDeleteContact(element);
+                                          ContactListPresenter.instance
+                                              .handleDeleteContact(element);
                                         },
                                       ),
                                       FlatButton(
@@ -66,7 +71,10 @@ class _ContactListState extends State<ContactList> {
                                           //print("CONTEXT "+context.toString());
                                           Navigator.of(context).push(
                                               MaterialPageRoute(builder: (_) {
-                                            return EditContact(contactListPresenter: this.widget.presenter,contactToEdit: element);
+                                            return EditContact(
+                                                contactListPresenter:
+                                                    ContactListPresenter.instance,
+                                                contactToEdit: element);
                                           }));
                                         },
                                         child: Icon(Icons.edit),
@@ -94,11 +102,16 @@ class _ContactListState extends State<ContactList> {
           onPressed: () {
             log('message');
             Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-              return AddContact(this.widget.presenter);
+              return AddContact(ContactListPresenter.instance);
             }));
           },
           tooltip: 'Increment',
           child: Icon(Icons.add),
         ));
+  }
+
+  @override
+  void notify() {
+    setState(() {});
   }
 }

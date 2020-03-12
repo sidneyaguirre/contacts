@@ -37,7 +37,7 @@ class AddContact extends StatelessWidget {
                     surnameController.text, phoneController.text)) {
                   return Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          ContactList(this.contactListPresenter)));
+                          ContactList()));
                 } else if (this.contactListPresenter.handleAddContact(
                         nameControl: nameController.text,
                         surnameControl: surnameController.text,
@@ -58,7 +58,7 @@ class AddContact extends StatelessWidget {
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      ContactList(contactListPresenter)));
+                                      ContactList()));
                             },
                           ),
                         ],
@@ -88,7 +88,7 @@ class AddContact extends StatelessWidget {
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      ContactList(contactListPresenter)));
+                                      ContactList()));
                             },
                           ),
                         ],

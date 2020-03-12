@@ -59,15 +59,16 @@ class _EditContactState extends State<EditContact> {
                     surnameController.text,
                     phoneController.text)) {
                   return Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          ContactList(this.widget.contactListPresenter)));
+                      builder: (BuildContext context) => ContactList()));
                 } else if (this.widget.contactListPresenter.handleEditContact(
                         nameControl: nameController.text,
                         surnameControl: surnameController.text,
                         phoneControl: phoneController.text) !=
                     null) {
                   var l = this.widget.contactListPresenter.getContactList();
-                  l.forEach((e){print(e.name);});
+                  l.forEach((e) {
+                    print(e.name);
+                  });
                   return showDialog<void>(
                     context: context,
                     barrierDismissible: false, // user must tap button!
@@ -83,8 +84,7 @@ class _EditContactState extends State<EditContact> {
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      ContactList(
-                                          this.widget.contactListPresenter)));
+                                      ContactList()));
                             },
                           ),
                         ],
@@ -114,8 +114,7 @@ class _EditContactState extends State<EditContact> {
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      ContactList(
-                                          this.widget.contactListPresenter)));
+                                      ContactList()));
                             },
                           ),
                         ],

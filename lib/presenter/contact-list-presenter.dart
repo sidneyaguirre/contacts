@@ -1,8 +1,17 @@
 import './contact.dart';
 import '../model/repository.dart';
 
+abstract class PresenterListener {
+  void notify();
+}
+
 class ContactListPresenter {
+  ContactListPresenter._(); //nombre
+  static ContactListPresenter _clpresenter = new ContactListPresenter._(); //tipo de dato
+  static ContactListPresenter get instance => _clpresenter; //cuerpo
+
   ContactRepository contactList = ContactRepository();
+  List<PresenterListener> _listeners = [];
 
   bool emptyFields(
       String nameController, String surnameController, String phoneController) {
@@ -35,7 +44,18 @@ class ContactListPresenter {
     return editContact(newContact);
   }
 
+  void notifyListeners() {
+    _listeners.forEach((listener){
+      listener.notify();
+    });
+  }
+
+  void addListener(PresenterListener listener) {
+    _listeners.add(listener);
+  }
+
   int addContact(Contact contact) {
+    this.notifyListeners();
     return contactList.addContact(contact);
   }
 
