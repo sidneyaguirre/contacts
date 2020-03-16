@@ -9,10 +9,10 @@ class ContactRepository {
     Contact(id: 2, name: 'Phineas', surname: 'Forbes', phone: '3034890567'),
   ];
 
-  bool contactExist(Contact contact) {
+  bool contactExist(int contactId) {
     bool exists = false;
     contacts.forEach((element) {
-      if (element == contact) {
+      if (element.id == contactId) {
         exists = true;
       }
     });
@@ -60,7 +60,8 @@ class ContactRepository {
   }
 
   int deleteContact(Contact contact) {
-    if (contactExist(contact)) {
+    int contactId = contact.id;
+    if (contactExist(contactId)) {
       contacts.remove(contact);
       print(contacts);
     return contact.id;

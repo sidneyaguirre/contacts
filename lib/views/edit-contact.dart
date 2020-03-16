@@ -7,7 +7,7 @@ import 'contact-list.dart';
 class EditContact extends StatefulWidget {
   final Contact contactToEdit;
   final ContactListPresenter contactListPresenter;
-  EditContact({Key key, this.contactToEdit, this.contactListPresenter})
+  EditContact(this.contactListPresenter, {Key key, this.contactToEdit})
       : super(key: key);
 
   @override

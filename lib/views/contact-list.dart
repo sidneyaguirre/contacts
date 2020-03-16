@@ -46,6 +46,7 @@ class _ContactListState extends State<ContactList>
                                     MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
+                                  //Visibility(child: Text(element.id.toString()), visible: false,),
                                   Text(element.name),
                                   Text(element.surname),
                                   Text(element.phone),
@@ -60,9 +61,50 @@ class _ContactListState extends State<ContactList>
                                         textColor: Colors.blue[200],
                                         borderSide: BorderSide.none,
                                         onPressed: () {
-                                          log('message');
-                                          ContactListPresenter.instance
-                                              .handleDeleteContact(element);
+                                          showDialog<void>(
+                                            context: context,
+                                            barrierDismissible:
+                                                false, // user must tap button!
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: Text(
+                                                    'Delete this contact?'),
+                                                content: SingleChildScrollView(
+                                                  child: ListBody(
+                                                    children: <Widget>[
+                                                      Text(
+                                                          'This contact will be removed.'),
+                                                    ],
+                                                  ),
+                                                ),
+                                                actions: <Widget>[
+                                                  FlatButton(
+                                                    child: Text('Cancel'),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ),
+                                                  FlatButton(
+                                                    child: Text(
+                                                      'Delete',
+                                                    ),
+                                                    onPressed: () {
+                                                      ContactListPresenter
+                                                          .instance
+                                                          .handleDeleteContact(
+                                                              element);
+                                                      Navigator.of(context).push(
+                                                          MaterialPageRoute(
+                                                              builder: (BuildContext
+                                                                      context) =>
+                                                                  ContactList()));
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
                                         },
                                       ),
                                       FlatButton(
@@ -72,8 +114,7 @@ class _ContactListState extends State<ContactList>
                                           Navigator.of(context).push(
                                               MaterialPageRoute(builder: (_) {
                                             return EditContact(
-                                                contactListPresenter:
-                                                    ContactListPresenter.instance,
+                                                ContactListPresenter.instance,
                                                 contactToEdit: element);
                                           }));
                                         },

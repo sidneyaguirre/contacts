@@ -11,6 +11,7 @@ class ContactListPresenter {
   static ContactListPresenter get instance => _clpresenter; //cuerpo
 
   ContactRepository contactList = ContactRepository();
+
   List<PresenterListener> _listeners = [];
 
   bool emptyFields(
@@ -60,10 +61,12 @@ class ContactListPresenter {
   }
 
   int editContact(Contact contact) {
+    this.notifyListeners();
     return contactList.editContact(contact);
   }
 
   int deleteContact(Contact contact) {
+    this.notifyListeners();
     return contactList.deleteContact(contact);
   }
 
