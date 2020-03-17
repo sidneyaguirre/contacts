@@ -1,8 +1,9 @@
-import 'package:contact_list/presenter/contact-list-presenter.dart';
-import 'package:contact_list/views/contact-list.dart';
 import 'package:flutter/material.dart';
 
 import '../presenter/contact-list-presenter.dart';
+import './contact-list.dart';
+import '../views/widgets/error-alert.dart';
+
 
 class AddContact extends StatelessWidget {
   final ContactListPresenter contactListPresenter;
@@ -70,29 +71,7 @@ class AddContact extends StatelessWidget {
                     context: context,
                     barrierDismissible: false, // user must tap button!
                     builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Error!'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: <Widget>[
-                              Text('Couldn\'t save contact...'),
-                            ],
-                          ),
-                        ),
-                        actions: <Widget>[
-                          FlatButton(
-                            child: Text('OK',
-                                style: TextStyle(
-                                  fontSize: 24,
-                                )),
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      ContactList()));
-                            },
-                          ),
-                        ],
-                      );
+                      return ErrorAlert();
                     },
                   ); //showDialog
                 }

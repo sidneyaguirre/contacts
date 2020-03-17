@@ -31,6 +31,7 @@ class ContactListPresenter {
     Contact newContact = createContact(
         name: nameControl, surname: surnameControl, phone: phoneControl);
     print(newContact);
+    //return null; //to verify error message
     return addContact(newContact);
   }
 
@@ -48,6 +49,7 @@ class ContactListPresenter {
         name: nameControl,
         surname: surnameControl,
         phone: phoneControl);
+    //return null; //to verify error message
     return editContact(contactEdited);
   }
 

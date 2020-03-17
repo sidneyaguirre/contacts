@@ -1,3 +1,5 @@
+import 'package:contact_list/views/widgets/error-alert.dart';
+
 import '../presenter/contact.dart';
 import 'package:flutter/material.dart';
 
@@ -99,29 +101,7 @@ class _EditContactState extends State<EditContact> {
                     context: context,
                     barrierDismissible: false, // user must tap button!
                     builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Error!'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: <Widget>[
-                              Text('Couldn\'t save contact...'),
-                            ],
-                          ),
-                        ),
-                        actions: <Widget>[
-                          FlatButton(
-                            child: Text('OK',
-                                style: TextStyle(
-                                  fontSize: 24,
-                                )),
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      ContactList()));
-                            },
-                          ),
-                        ],
-                      );
+                      return ErrorAlert();
                     },
                   ); //showDialog
                 }
