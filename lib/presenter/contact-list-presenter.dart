@@ -7,7 +7,8 @@ abstract class PresenterListener {
 
 class ContactListPresenter {
   ContactListPresenter._(); //nombre
-  static ContactListPresenter _clpresenter = new ContactListPresenter._(); //tipo de dato
+  static ContactListPresenter _clpresenter =
+      new ContactListPresenter._(); //tipo de dato
   static ContactListPresenter get instance => _clpresenter; //cuerpo
 
   ContactRepository contactList = ContactRepository();
@@ -33,20 +34,25 @@ class ContactListPresenter {
     return addContact(newContact);
   }
 
-  int handleDeleteContact(Contact contact){
+  int handleDeleteContact(Contact contact) {
     return deleteContact(contact);
   }
 
   int handleEditContact(
-      {String nameControl, String surnameControl, String phoneControl}) {
-    Contact newContact = createContact(
-        name: nameControl, surname: surnameControl, phone: phoneControl);
-    print(newContact);
-    return editContact(newContact);
+      {int id,
+      String nameControl,
+      String surnameControl,
+      String phoneControl}) {
+    Contact contactEdited = Contact(
+        id: id,
+        name: nameControl,
+        surname: surnameControl,
+        phone: phoneControl);
+    return editContact(contactEdited);
   }
 
   void notifyListeners() {
-    _listeners.forEach((listener){
+    _listeners.forEach((listener) {
       listener.notify();
     });
   }
@@ -74,7 +80,7 @@ class ContactListPresenter {
     return contactList.getContactList();
   }
 
-  Contact createContact({String name, String surname, String phone}) {
+  Contact createContact({int id, String name, String surname, String phone}) {
     Contact newContact = Contact();
     newContact.name = name;
     newContact.surname = surname;

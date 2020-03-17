@@ -19,10 +19,10 @@ class ContactRepository {
     return exists;
   }
 
-  Contact getContact(Contact contact) {
+  Contact getContact(int contactId) {
     Contact getContact;
     contacts.forEach((element) {
-      if (element == contact) {
+      if (element.id == contactId) {
         getContact = element;
       }
     });
@@ -34,22 +34,21 @@ class ContactRepository {
     contact.id = this.lastId;
     contacts.add(contact);
     contacts.forEach((e) {
-      print(e.id.toString() + " " + e.name + " " + e.surname + " " + e.phone);
+      print("New Info: " + e.id.toString() + " " + e.name + " " + e.surname + " " + e.phone);
     });
     return contact.id;
   }
 
   int editContact(Contact contact) {
-    Contact currentContact = getContact(contact);
-    int index = contacts.indexOf(contact);
+    int editedContactId = contact.id;
+    Contact currentContact = getContact(editedContactId);
     if (currentContact != null) {
       currentContact.name = contact.name;
       currentContact.surname = contact.surname;
       currentContact.phone = contact.phone;
-      contacts[index] = currentContact;
-      contacts.forEach((e) {
+      /* contacts.forEach((e) {
         print(e.id.toString() + " " + e.name + " " + e.surname + " " + e.phone);
-      });
+      }); */
       return currentContact.id;
     } else
       return -1;

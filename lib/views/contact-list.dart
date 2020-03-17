@@ -5,6 +5,7 @@ import '../presenter/contact.dart';
 import './add-contact.dart';
 import './edit-contact.dart';
 import '../presenter/contact-list-presenter.dart';
+import './widgets/delete-alert.dart';
 
 class ContactList extends StatefulWidget {
   ContactList({Key key}) : super(key: key);
@@ -46,7 +47,6 @@ class _ContactListState extends State<ContactList>
                                     MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  //Visibility(child: Text(element.id.toString()), visible: false,),
                                   Text(element.name),
                                   Text(element.surname),
                                   Text(element.phone),
@@ -66,43 +66,7 @@ class _ContactListState extends State<ContactList>
                                             barrierDismissible:
                                                 false, // user must tap button!
                                             builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                title: Text(
-                                                    'Delete this contact?'),
-                                                content: SingleChildScrollView(
-                                                  child: ListBody(
-                                                    children: <Widget>[
-                                                      Text(
-                                                          'This contact will be removed.'),
-                                                    ],
-                                                  ),
-                                                ),
-                                                actions: <Widget>[
-                                                  FlatButton(
-                                                    child: Text('Cancel'),
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                  ),
-                                                  FlatButton(
-                                                    child: Text(
-                                                      'Delete',
-                                                    ),
-                                                    onPressed: () {
-                                                      ContactListPresenter
-                                                          .instance
-                                                          .handleDeleteContact(
-                                                              element);
-                                                      Navigator.of(context).push(
-                                                          MaterialPageRoute(
-                                                              builder: (BuildContext
-                                                                      context) =>
-                                                                  ContactList()));
-                                                    },
-                                                  ),
-                                                ],
-                                              );
+                                              return DeleteAlert(element);
                                             },
                                           );
                                         },
@@ -110,7 +74,6 @@ class _ContactListState extends State<ContactList>
                                       FlatButton(
                                         hoverColor: Colors.blueAccent,
                                         onPressed: () {
-                                          //print("CONTEXT "+context.toString());
                                           Navigator.of(context).push(
                                               MaterialPageRoute(builder: (_) {
                                             return EditContact(

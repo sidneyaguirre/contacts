@@ -15,12 +15,14 @@ class EditContact extends StatefulWidget {
 }
 
 class _EditContactState extends State<EditContact> {
+  int contactId;
   TextEditingController nameController;
   TextEditingController surnameController;
   TextEditingController phoneController;
 
   void initState() {
     super.initState();
+    contactId = this.widget.contactToEdit.id;
     nameController =
         TextEditingController(text: this.widget.contactToEdit.name);
     surnameController =
@@ -61,13 +63,14 @@ class _EditContactState extends State<EditContact> {
                   return Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) => ContactList()));
                 } else if (this.widget.contactListPresenter.handleEditContact(
+                        id: contactId,
                         nameControl: nameController.text,
                         surnameControl: surnameController.text,
                         phoneControl: phoneController.text) !=
                     null) {
                   var l = this.widget.contactListPresenter.getContactList();
                   l.forEach((e) {
-                    print(e.name);
+                    print(e.id.toString() + " " + e.name + " " + e.phone);
                   });
                   return showDialog<void>(
                     context: context,
